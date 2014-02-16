@@ -1,10 +1,10 @@
 package solution
 
 import (
-	"reflect"
-	"testing"
 	"fmt"
+	"reflect"
 	"sort"
+	"testing"
 )
 
 func mockAttributes() []string {
@@ -47,19 +47,19 @@ func mockJugglersCase1() Jugglers {
 			panic(err)
 		}
 		jugglers = append(jugglers, j)
-	} 
+	}
 	return jugglers
 }
 
 func mockCircuitsCase2() Circuits {
 	cs := make(Circuits)
 	ss := make([]string, 0)
-	ss = append(ss, "C C1 H:1 E:1 P:1")	
-	ss = append(ss, "C C2 H:2 E:2 P:2")	
-	ss = append(ss, "C C3 H:3 E:3 P:3")	
-	ss = append(ss, "C C4 H:4 E:4 P:4")	
+	ss = append(ss, "C C1 H:1 E:1 P:1")
+	ss = append(ss, "C C2 H:2 E:2 P:2")
+	ss = append(ss, "C C3 H:3 E:3 P:3")
+	ss = append(ss, "C C4 H:4 E:4 P:4")
 	for _, s := range ss {
-		c, err := MakeCircuit(s)	
+		c, err := MakeCircuit(s)
 		if err != nil {
 			panic(err)
 		}
@@ -79,26 +79,26 @@ func mockJugglersCase2() Jugglers {
 	ss = append(ss, "J J5 H:5 E:5 P:5 C3,C4")
 	ss = append(ss, "J J6 H:6 E:6 P:6 C4,C1")
 	ss = append(ss, "J J7 H:7 E:7 P:7 C4,C2")
-	ss = append(ss, "J J8 H:8 E:8 P:8 C4,C3") 
+	ss = append(ss, "J J8 H:8 E:8 P:8 C4,C3")
 	for _, s := range ss {
 		j, err := MakeJuggler(s, cs)
 		if err != nil {
 			panic(err)
 		}
 		jugglers = append(jugglers, j)
-	} 
+	}
 	return jugglers
 }
 
 func mockCircuitsCase3() Circuits {
 	cs := make(Circuits)
 	ss := make([]string, 0)
-	ss = append(ss, "C C1 H:1 E:1 P:1")	
-	ss = append(ss, "C C2 H:1 E:1 P:1")	
-	ss = append(ss, "C C3 H:1 E:1 P:1")	
-	ss = append(ss, "C C4 H:1 E:1 P:1")	
+	ss = append(ss, "C C1 H:1 E:1 P:1")
+	ss = append(ss, "C C2 H:1 E:1 P:1")
+	ss = append(ss, "C C3 H:1 E:1 P:1")
+	ss = append(ss, "C C4 H:1 E:1 P:1")
 	for _, s := range ss {
-		c, err := MakeCircuit(s)	
+		c, err := MakeCircuit(s)
 		if err != nil {
 			panic(err)
 		}
@@ -118,14 +118,14 @@ func mockJugglersCase3() Jugglers {
 	ss = append(ss, "J J5 H:3 E:3 P:3 C3,C4")
 	ss = append(ss, "J J6 H:3 E:3 P:3 C4,C1")
 	ss = append(ss, "J J7 H:4 E:4 P:4 C4,C2")
-	ss = append(ss, "J J8 H:4 E:4 P:4 C4,C3") 
+	ss = append(ss, "J J8 H:4 E:4 P:4 C4,C3")
 	for _, s := range ss {
 		j, err := MakeJuggler(s, cs)
 		if err != nil {
 			panic(err)
 		}
 		jugglers = append(jugglers, j)
-	} 
+	}
 	return jugglers
 }
 
@@ -471,7 +471,7 @@ func TestPopRemoves(t *testing.T) {
 	js := mockJugglersCase1()
 	length := len(js)
 	_ = js.Pop()
-	if length-len(js)!=1 {
+	if length-len(js) != 1 {
 		t.Errorf("Pop() does not remove elements; length was %v and became %v", length, len(js))
 	}
 }
@@ -486,26 +486,25 @@ func TestPopReturns(t *testing.T) {
 }
 
 func TestJugglerStringFirstExample(t *testing.T) {
-	js := mockJugglersCase1() 
+	js := mockJugglersCase1()
 	if fmt.Sprintf(js[0].String()) != "J0 C0:3 C1:6" {
 		t.Errorf("Juggler default printing does not meet specified format, expected \"J0 C0:3 C1:6\", got: %v", js[0])
 	}
 }
 func TestJugglerStringSecondExample(t *testing.T) {
-	js := mockJugglersCase1() 
+	js := mockJugglersCase1()
 	if fmt.Sprintf(js[1].String()) != "J1 C0:6 C1:12" {
 		t.Errorf("Juggler default printing does not meet specified format, expected \"J1 C0:6 C1:12\", got: %v", js[1])
 	}
 }
 
-
 func TestCircuitStringFirstExample(t *testing.T) {
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
-	
+
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
+
 	if fmt.Sprintf(cs["C0"].String()) != "C0 J3 C1:24 C0:12, J2 C0:9 C1:18" {
 		t.Errorf("Circuit default printing does not meet specified format, expected \"C0 J3 C1:24 C0:12, J2 C0:9 C1:18\", got: %v", cs["C0"])
 	}
@@ -514,10 +513,10 @@ func TestCircuitStringFirstExample(t *testing.T) {
 func TestCircuitStringSecondExample(t *testing.T) {
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
-	
+
 	cs["C1"].Accepted = append(cs["C1"].Accepted, js.Pop())
 	cs["C1"].Accepted = append(cs["C1"].Accepted, js.Pop())
-	
+
 	if fmt.Sprintf(cs["C1"].String()) != "C1 J3 C1:24 C0:12, J2 C0:9 C1:18" {
 		t.Errorf("Circuit default printing does not meet specified format, expected \"C1 J3 C1:24 C0:12, J2 C0:9 C1:18\", got: %v", cs["C1"])
 	}
@@ -525,7 +524,7 @@ func TestCircuitStringSecondExample(t *testing.T) {
 
 func TestCircuitEmptyLen(t *testing.T) {
 	cs := mockCircuitsCase1()
-	
+
 	if cs["C0"].Len() != 0 {
 		t.Errorf("Circuit with empty Accepted returns non-zero Len(), returned: %v", cs["C0"].Len())
 	}
@@ -537,25 +536,25 @@ func TestCircuitSomeLen(t *testing.T) {
 
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
+
 	if cs["C0"].Len() != 2 {
 		t.Errorf("Circuit with Accepted of length 2 returns Len()!=2, returned: %v", cs["C0"].Len())
 	}
 }
-	
+
 func TestCircuitSwap(t *testing.T) {
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
-	
+
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
+
 	J3 := cs["C0"].Accepted[0].Name
 	J2 := cs["C0"].Accepted[1].Name
-	
+
 	cs["C0"].Swap(0, 1)
-	
-	if (J3 != cs["C0"].Accepted[1].Name || J2 != cs["C0"].Accepted[0].Name) {
+
+	if J3 != cs["C0"].Accepted[1].Name || J2 != cs["C0"].Accepted[0].Name {
 		t.Errorf("Swap did not swap; expected cs.Accepted[1].Name == \"J3\" and cs.Accepted[0].Name == \"J2\" but actually cs.Accepted[1].Name == \"%v\" and cs.Accepted[0].Name == \"%v\"", cs["C0"].Accepted[1].Name, cs["C0"].Accepted[0].Name)
 	}
 }
@@ -566,8 +565,8 @@ func TestCircitLessTrue(t *testing.T) {
 
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
-	// For C0, J3(index 0) > J2 (index 1); J3 should 
+
+	// For C0, J3(index 0) > J2 (index 1); J3 should
 	// be sorted before J2 (i.e. Pop() should encounter
 	// J2 before J3), so "Less" in this case is "More".
 	if !cs["C0"].Less(0, 1) {
@@ -578,11 +577,11 @@ func TestCircitLessTrue(t *testing.T) {
 func TestCircitLessFalse(t *testing.T) {
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
-	
+
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
-	// For C0, J3(index 0) > J2 (index 1); J3 should 
+
+	// For C0, J3(index 0) > J2 (index 1); J3 should
 	// be sorted before J2 (i.e. Pop() should encounter
 	// J2 before J3), so "Less" in this case is "More".
 	if cs["C0"].Less(1, 0) {
@@ -596,13 +595,13 @@ func TestCircitLessEqualPromotedI(t *testing.T) {
 
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
+
 	cs["C0"].Accepted[0].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[1].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[0].Promoted = true
 	cs["C0"].Accepted[1].Promoted = false
-	
-	// For C0, J3(index 0) > J2 (index 1); J3 should 
+
+	// For C0, J3(index 0) > J2 (index 1); J3 should
 	// be sorted before J2 (i.e. Pop() should encounter
 	// J2 before J3), so "Less" in this case is "More".
 	if !cs["C0"].Less(0, 1) {
@@ -613,16 +612,16 @@ func TestCircitLessEqualPromotedI(t *testing.T) {
 func TestCircitLessEqualPromotedJ(t *testing.T) {
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
-	
+
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
+
 	cs["C0"].Accepted[0].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[1].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[0].Promoted = false
 	cs["C0"].Accepted[1].Promoted = true
-	
-	// For C0, J3(index 0) > J2 (index 1); J3 should 
+
+	// For C0, J3(index 0) > J2 (index 1); J3 should
 	// be sorted before J2 (i.e. Pop() should encounter
 	// J2 before J3), so "Less" in this case is "More".
 	if cs["C0"].Less(0, 1) {
@@ -636,13 +635,13 @@ func TestCircitLessEqualBothPromoted(t *testing.T) {
 
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
+
 	cs["C0"].Accepted[0].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[1].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[0].Promoted = true
 	cs["C0"].Accepted[1].Promoted = true
-	
-	// For C0, J3(index 0) > J2 (index 1); J3 should 
+
+	// For C0, J3(index 0) > J2 (index 1); J3 should
 	// be sorted before J2 (i.e. Pop() should encounter
 	// J2 before J3), so "Less" in this case is "More".
 	if cs["C0"].Less(0, 1) {
@@ -653,16 +652,16 @@ func TestCircitLessEqualBothPromoted(t *testing.T) {
 func TestCircitLessEqualNeitherPromoted(t *testing.T) {
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
-	
+
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
-	
+
 	cs["C0"].Accepted[0].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[1].CircuitScores["C0"] = 0
 	cs["C0"].Accepted[0].Promoted = false
 	cs["C0"].Accepted[1].Promoted = false
-	
-	// For C0, J3(index 0) > J2 (index 1); J3 should 
+
+	// For C0, J3(index 0) > J2 (index 1); J3 should
 	// be sorted before J2 (i.e. Pop() should encounter
 	// J2 before J3), so "Less" in this case is "More".
 	if cs["C0"].Less(0, 1) {
@@ -670,78 +669,78 @@ func TestCircitLessEqualNeitherPromoted(t *testing.T) {
 	}
 }
 
-// Case1: Every circuit appears in every juggler's list 
-// of preferences. No random assignment. 
+// Case1: Every circuit appears in every juggler's list
+// of preferences. No random assignment.
 func TestAssignJugglersCase1Length(t *testing.T) {
-	
-	// In the mock examples, J3>J2>J1>J0. As there are 
+
+	// In the mock examples, J3>J2>J1>J0. As there are
 	// four jugglers and two circuits, each circuit will
-	// accept a total of two jugglers. J3 wants C1 and 
+	// accept a total of two jugglers. J3 wants C1 and
 	// will be assigned to this circuit. J2 & J1 both
 	// want C0 and will be assigned to this circuit. J0
 	// wants C0, but C0 has been filled, so will take his
-	// second pick of C1. 
-	
+	// second pick of C1.
+
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
 	r := make(Jugglers, 0)
 	capacity := len(js) / len(cs)
 	s := &Solution{cs, js, r, capacity}
-	
+
 	s.AssignJugglers()
-	
-	if len(s.Rejected)>0 {
+
+	if len(s.Rejected) > 0 {
 		t.Errorf("Case 1 Solution's list of rejected jugglers should be empty, but contains %v jugglers.", len(s.Rejected))
 	}
-	
+
 }
 
 func TestCircuitsPublish(t *testing.T) {
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
-	
+
 	// To simplify the test case, I manually sort the
 	// jugglers as if they had been assigned appropriately.
 	cs["C1"].Accepted = append(cs["C1"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C0"].Accepted = append(cs["C0"].Accepted, js.Pop())
 	cs["C1"].Accepted = append(cs["C1"].Accepted, js.Pop())
-	
+
 	results := cs.Publish()
-	
+
 	sort.Strings(results)
 	if results[0] != "C0 J2 C0:9 C1:18, J1 C0:6 C1:12" || results[1] != "C1 J3 C1:24 C0:12, J0 C0:3 C1:6" {
 		t.Errorf("Publish() published wrong results; expected results[0] == \"C0 J2 C0:9 C1:18, J1 C0:6 C1:12\" but got %v and expected results[1] == \"C1 J3 C1:24 C0:12, J0 C0:3 C1:6\" but got %v", results[0], results[1])
 	}
 }
 
-// Case1: Every circuit appears in every juggler's list 
-// of preferences. No random assignment. 
- func TestAssignJugglersCase1Content(t *testing.T) {
-	
-	// In the mock examples, J3>J2>J1>J0. As there are 
+// Case1: Every circuit appears in every juggler's list
+// of preferences. No random assignment.
+func TestAssignJugglersCase1Content(t *testing.T) {
+
+	// In the mock examples, J3>J2>J1>J0. As there are
 	// four jugglers and two circuits, each circuit will
-	// accept a total of two jugglers. J3 wants C1 and 
+	// accept a total of two jugglers. J3 wants C1 and
 	// will be assigned to this circuit. J2 & J1 both
 	// want C0 and will be assigned to this circuit. J0
 	// wants C0, but C0 has been filled, so will take his
-	// second pick of C1. 
-	
+	// second pick of C1.
+
 	cs := mockCircuitsCase1()
 	js := mockJugglersCase1()
 	r := make(Jugglers, 0)
 	capacity := len(js) / len(cs)
 	s := &Solution{cs, js, r, capacity}
-	
+
 	s.AssignJugglers()
 	results := s.Circuits.Publish()
-	
+
 	sort.Strings(results)
 	if results[0] != "C0 J2 C0:9 C1:18, J1 C0:6 C1:12" || results[1] != "C1 J3 C1:24 C0:12, J0 C0:3 C1:6" {
 		t.Errorf("Assign failed to assign properly; expected results[0] == \"C0 J2 C0:9 C1:18, J1 C0:6 C1:12\" but got %v and expected results[1] == \"C1 J3 C1:24 C0:12, J0 C0:3 C1:6\" but got %v", results[0], results[1])
 	}
-	
-} 
+
+}
 
 func TestAssignJugglersCase2Content(t *testing.T) {
 	cs := mockCircuitsCase2()
@@ -749,18 +748,18 @@ func TestAssignJugglersCase2Content(t *testing.T) {
 	r := make(Jugglers, 0)
 	capacity := len(js) / len(cs)
 	s := &Solution{cs, js, r, capacity}
-	
+
 	s.AssignJugglers()
 	results := s.Circuits.Publish()
-	
+
 	sort.Strings(results)
-	
+
 	C1Wrong := (results[0] != "C1 J6 C4:72 C1:18, J3 C3:27 C1:9")
 	C2Wrong := (results[1] != "C2 J2 C2:12 C4:24")
 	C3Wrong := (results[2] != "C3 J5 C3:45 C4:60, J4 C3:36 C2:24")
 	C4Wrong := (results[3] != "C4 J8 C4:96 C3:72, J7 C4:84 C2:42")
-	
-	if (C1Wrong || C2Wrong || C3Wrong || C4Wrong) {
+
+	if C1Wrong || C2Wrong || C3Wrong || C4Wrong {
 		t.Errorf("Assign failed to assign properly.")
 	}
 }
@@ -771,15 +770,14 @@ func TestAssignJugglersCase3(t *testing.T) {
 	r := make(Jugglers, 0)
 	capacity := len(js) / len(cs)
 	s := &Solution{cs, js, r, capacity}
-	
+
 	s.AssignJugglers()
 	results := s.Circuits.Publish()
-	
-	sort.Strings(results)
-	
-//	for _, v := range(results) {
-//		fmt.Println(v)
-//	}
-	
-}
 
+	sort.Strings(results)
+
+	//	for _, v := range(results) {
+	//		fmt.Println(v)
+	//	}
+
+}

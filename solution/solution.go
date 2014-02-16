@@ -3,9 +3,9 @@ package solution
 import (
 	"container/list"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
-	"sort"
 )
 
 type Solution struct {
@@ -28,7 +28,7 @@ type Juggler struct {
 	CircuitScores      map[string]int
 	CircuitPreferences *list.List
 	CurrentCircuit     *list.Element
-	Promoted			bool
+	Promoted           bool
 }
 
 type Jugglers []*Juggler
@@ -50,7 +50,7 @@ func (j *Juggler) String() string {
 	return s
 }
 
-func (js *Jugglers) Pop()  (j *Juggler) {
+func (js *Jugglers) Pop() (j *Juggler) {
 	old := *js
 	n := len(old)
 	j = old[n-1]
@@ -62,20 +62,20 @@ func (c *Circuit) String() string {
 	s := c.Name
 	s += " "
 	for _, j := range c.Accepted {
-		s += j.String()+", "
+		s += j.String() + ", "
 	}
 	s = strings.TrimSuffix(s, ", ")
 	return s
 }
 
-func (c *Circuit) Len() int				{ return len(c.Accepted) }
-func (c *Circuit) Less(i, j int) bool { 
+func (c *Circuit) Len() int { return len(c.Accepted) }
+func (c *Circuit) Less(i, j int) bool {
 	if c.Accepted[i].CircuitScores[c.Name] == c.Accepted[j].CircuitScores[c.Name] {
 		return c.Accepted[i].Promoted && !c.Accepted[j].Promoted
 	}
-	return c.Accepted[i].CircuitScores[c.Name] > c.Accepted[j].CircuitScores[c.Name] 
+	return c.Accepted[i].CircuitScores[c.Name] > c.Accepted[j].CircuitScores[c.Name]
 }
-func (c *Circuit) Swap(i, j int)		{ c.Accepted[i], c.Accepted[j] = c.Accepted[j], c.Accepted[i] }
+func (c *Circuit) Swap(i, j int) { c.Accepted[i], c.Accepted[j] = c.Accepted[j], c.Accepted[i] }
 
 // MakeCircuit takes an input string and returns a pointer
 // to a new Circuit struct. Per the specification: 1. Names
@@ -209,11 +209,11 @@ func makeSkills(attributes []string) (sk *skills, err error) {
 }
 
 func (s *Solution) AssignJugglers() {
-	for ; len(s.Unassigned)>0; {
+	for len(s.Unassigned) > 0 {
 		j := s.Unassigned.Pop()
 		c := j.CurrentCircuit.Value.(string)
 		s.Circuits[c].Accepted = append(s.Circuits[c].Accepted, j)
-		if len(s.Circuits[c].Accepted)>s.Capacity {
+		if len(s.Circuits[c].Accepted) > s.Capacity {
 			sort.Stable(s.Circuits[c])
 			r := s.Circuits[c].Accepted.Pop() // r = rejected juggler
 			r.CurrentCircuit = r.CurrentCircuit.Next()
